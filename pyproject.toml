@@ -1,2 +1,71 @@
 [build-system]
-requires = ["setuptools >= 43.0.0", "wheel"]
+requires = ["setuptools>=61.2", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+authors = [{name = "The DataLad Team and Contributors", email = "team@datalad.org"}]
+description = "Stephan's Sexy Snippets"
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+requires-python = ">= 3.7"
+dependencies = ["datalad >= 0.18.0"]
+dynamic = ["version"]
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown; charset=UTF-8"
+
+[project.urls]
+Homepage = "https://github.com/jsheunis/datalad-sexy-snippets"
+
+[project.optional-dependencies]
+# this matches the name used by -core and what is expected by some CI setups
+devel = [
+    "pytest",
+    "pytest-cov",
+    "coverage",
+    "sphinx",
+    "sphinx_rtd_theme",
+]
+devel-utils = [
+    "pytest-xdist",
+    "scriv",
+]
+
+[project.entry-points]
+# 'datalad.extensions' is THE entrypoint inspected by the datalad API builders
+
+[project.entry-points."datalad.extensions"]
+# the label in front of '=' is the command suite label
+# the entrypoint can point to any symbol of any name, as long it is
+# valid datalad interface specification (see demo in this extensions)
+sexy_snippets = "datalad_sexy_snippets:command_suite"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["datalad_sexy_snippets*"]
+namespaces = true
+
+[tool.versioneer]
+# See the docstring in versioneer.py for instructions. Note that you must
+# re-run 'versioneer.py setup' after changing this section, and commit the
+# resulting files.
+vcs = "git"
+style = "pep440"
+versionfile_source = "datalad_sexy_snippets/_version.py"
+versionfile_build = "datalad_sexy_snippets/_version.py"
+tag_prefix = ""
+parentdir_prefix = ""
+
+[tool.coverage.report]
+show_missing = true
+omit = [
+    # versioneer code
+    "datalad_sexy_snippets/_version.py",
+]
