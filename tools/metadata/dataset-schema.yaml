@@ -1,12 +1,12 @@
 id: https://w3id.org/datalad/dataset
 name: datalad_dataset
 prefixes:                                 
-  linkml: https://w3id.org/linkml/
-  schema: http://schema.org/
-  ORCID: https://orcid.org/
-  spdx: https://spdx.org/licenses/
   afo: http://purl.allotrope.org/ontologies/result#
+  linkml: https://w3id.org/linkml/
   obo: https://purl.obolibrary.org/obo/
+  ORCID: https://orcid.org/
+  schema: http://schema.org/
+  spdx: https://spdx.org/licenses/
 imports:
   - linkml:types
 default_range: string
@@ -18,71 +18,84 @@ classes:
   Dataset:
     class_uri: schema:Dataset
     slots:   ## specified as a list
-      - type
-      - identifier
-      - name
-      - title
-      - version
+      - authors
       - description
+      - hasPart
+      - homepage
+      - identifier
       - keywords
       - last-updated
-      - homepage
       - license
-      - hasPart
+      - name
+      - title
+      - type
+      - version
   File:
     class_uri: schema:DigitalDocument
     slots:   ## specified as a list
-      - type
-      - path_posix
       - checksum_md5
+      - path_posix
       - size_in_bytes
+      - type
       - url
+  Person:
+    class_uri: schema:Person
+    slots:
+      - email
+      - name
 
 
 # slots are first-class entities in the metamodel
 # declaring them here allows them to be reused elsewhere
 slots:
-  type:
-    designates_type: true
-    range: string
+  authors:
+    slot_uri: schema:author
+    multivalued: true
+    inlined_as_list: true
+    range: Person
+  checksum_md5:
+    slot_uri: obo:NCIT_C171276
+  description:
+    slot_uri: schema:description
+  email:
+    slot_uri: schema:email
+  hasPart:
+    slot_uri: schema:hasPart
+    multivalued: true
+    inlined_as_list: true
+    range: File
+  homepage:
+    slot_uri: schema:version
   identifier:
     identifier: true
     slot_uri: schema:identifier
-  name:
-    slot_uri: schema:name
-  title:
-    slot_uri: schema:title
-  version:
-    slot_uri: schema:version
-  description:
-    slot_uri: schema:description
   keywords:
     slot_uri: schema:keywords
     multivalued: true
     inlined_as_list: true
   last-updated:
     slot_uri: schema:dateModified
-  homepage:
-    slot_uri: schema:version
   license:
     slot_uri: schema:license
     range: LicenseEnum
-  hasPart:
-    slot_uri: schema:hasPart
-    multivalued: true
-    inlined_as_list: true
-    range: File
+  name:
+    slot_uri: schema:name
+  path_posix:
+    slot_uri: afo:AFR_0001928
   size_in_bytes:
     slot_uri: schema:contentSize
     range: integer
     unit:
       ucum_code: byte
-  checksum_md5:
-    slot_uri: obo:NCIT_C171276
-  path_posix:
-    slot_uri: afo:AFR_0001928
+  type:
+    designates_type: true
+    range: string
+  title:
+    slot_uri: schema:title
   url:
     slot_uri: schema:contentUrl
+  version:
+    slot_uri: schema:version
 
 
 # optional: schema type extensions
