@@ -1,0 +1,94 @@
+id: https://w3id.org/datalad/dataset
+name: datalad_dataset
+prefixes:                                 
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  ORCID: https://orcid.org/
+  spdx: https://spdx.org/licenses/
+  afo: http://purl.allotrope.org/ontologies/result#
+  obo: https://purl.obolibrary.org/obo/
+imports:
+  - linkml:types
+default_range: string
+
+
+# classes are the main organization until for data;
+# all data records instantiate a class
+classes:
+  Dataset:
+    class_uri: schema:Dataset
+    slots:   ## specified as a list
+      - type
+      - identifier
+      - name
+      - title
+      - version
+      - description
+      - keywords
+      - last-updated
+      - homepage
+      - license
+      - hasPart
+  File:
+    class_uri: schema:DigitalDocument
+    slots:   ## specified as a list
+      - type
+      - path_posix
+      - checksum_md5
+      - size_in_bytes
+      - url
+
+
+# slots are first-class entities in the metamodel
+# declaring them here allows them to be reused elsewhere
+slots:
+  type:
+    designates_type: true
+    range: string
+  identifier:
+    identifier: true
+    slot_uri: schema:identifier
+  name:
+    slot_uri: schema:name
+  title:
+    slot_uri: schema:title
+  version:
+    slot_uri: schema:version
+  description:
+    slot_uri: schema:description
+  keywords:
+    slot_uri: schema:keywords
+    multivalued: true
+    inlined_as_list: true
+  last-updated:
+    slot_uri: schema:dateModified
+  homepage:
+    slot_uri: schema:version
+  license:
+    slot_uri: schema:license
+    range: LicenseEnum
+  hasPart:
+    slot_uri: schema:hasPart
+    multivalued: true
+    inlined_as_list: true
+    range: File
+  size_in_bytes:
+    slot_uri: schema:contentSize
+    range: integer
+    unit:
+      ucum_code: byte
+  checksum_md5:
+    slot_uri: obo:NCIT_C171276
+  path_posix:
+    slot_uri: afo:AFR_0001928
+  url:
+    slot_uri: schema:contentUrl
+
+
+# optional: schema type extensions
+
+
+# enumerations
+enums:
+  LicenseEnum:
+    source_ontology: spdx
